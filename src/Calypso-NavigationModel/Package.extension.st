@@ -5,3 +5,8 @@ Package >> calypsoName [
 
 	^ self name
 ]
+
+{ #category : '*Calypso-NavigationModel' }
+Package >> packageName [
+	^ self name
+]
