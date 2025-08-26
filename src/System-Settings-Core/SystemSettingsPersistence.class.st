@@ -329,7 +329,11 @@ SystemSettingsPersistence >> updateSettingNodes: aCollectionOfSettingNodes [
 		storedSettings
 			detect: [ :eachStoredSetting | eachStoredSetting isForSettingNode: eachSettingNode ]
 			ifFound: [ :storedSetting | storedSetting updateSettingNode: eachSettingNode ]
-			ifNone: [ "ignore it" ] ]
+			ifNone: [
+				| declaration |
+				declaration := eachSettingNode settingDeclaration.
+				declaration hasDefault
+					ifTrue: [ declaration setToDefault ]] ]
 ]
 
 { #category : 'streams' }

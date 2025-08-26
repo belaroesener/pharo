@@ -381,7 +381,7 @@ SettingBrowser >> choosePackagesIn: aWindow [
 	list := MorphTreeModel new
 				beCheckList;
 				autoMultiSelection: true;
-				rootItems: (self allPackagesWithSettings asArray sort: [:a :b | a packageName < b packageName]);
+				rootItems: (self allPackagesWithSettings asArray sort: [:a :b | a name < b name]);
 				 wrapBlockOrSelector: #packageName.
 	result := list openDialogWindowIn: aWindow title: 'Choose packages' selectedtems: self viewedPackages.
 	result ifNotNil: [self changePackageSet: result]
