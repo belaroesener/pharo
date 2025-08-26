@@ -101,6 +101,11 @@ ReAbstractRule class >> codingIdiomViolationGroup [
 	^ #'Coding Idiom Violation'
 ]
 
+{ #category : 'accessing' }
+ReAbstractRule class >> defaultRuleState [
+	^ true
+]
+
 { #category : 'accessing - rule group' }
 ReAbstractRule class >> designFlawGroup [
 
