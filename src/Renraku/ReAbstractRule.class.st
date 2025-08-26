@@ -110,7 +110,7 @@ ReAbstractRule class >> designFlawGroup [
 { #category : 'accessing' }
 ReAbstractRule class >> enabled [
 
-	^ enabled ifNil: [ enabled := true ]
+	^ enabled ifNil: [ enabled := self defaultRuleState ]
 ]
 
 { #category : 'accessing' }
