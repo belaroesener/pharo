@@ -174,14 +174,6 @@ SystemSettingsPersistence >> fileReference: aFileReference [
 	fileReference := aFileReference
 ]
 
-{ #category : 'storing' }
-SystemSettingsPersistence >> mergeStoredSettings: aCollectionOfStoredSettings [
-	^ StoredSettingsMerger new
-		addStoredSettings: self allStoredSettings;
-		addStoredSettings: aCollectionOfStoredSettings;
-		storedSettings
-]
-
 { #category : 'accessing' }
 SystemSettingsPersistence >> nodeNamed: aString [
 	^ self settingTree nodeNamed: aString
@@ -273,17 +265,17 @@ SystemSettingsPersistence >> storeSettingNodes [
 { #category : 'storing' }
 SystemSettingsPersistence >> storeSettingNodes: aCollectionOfSettingNodes [
 	"It stores a collection of settings on the disk."
-	| storedNodes |
-	storedNodes := StoredSettingsFactory new fromSettingNodes: aCollectionOfSettingNodes.
-	self storeStoredSettings: storedNodes
-]
 
-{ #category : 'storing' }
-SystemSettingsPersistence >> storeStoredSettings: aCollectionOfStoredSettings [
-	"It stores a collection of settings on the disk."
-	| allStoredSettings |
-	allStoredSettings := self mergeStoredSettings: aCollectionOfStoredSettings.
-	self storeExactStoredSettings: allStoredSettings
+	| newStoredSettings merger filteredStoredSettings |
+	newStoredSettings := StoredSettingsFactory new fromSettingNodes: aCollectionOfSettingNodes.
+	merger := StoredSettingsMerger new
+		          addStoredSettings: self allStoredSettings;
+		          addStoredSettings: newStoredSettings;
+		          yourself. 
+	filteredStoredSettings := merger storedSettings reject: [ :aStoredSetting | 
+		"The settings with default values are not stored"
+		aStoredSetting hasDefaultValue ].
+	self storeExactStoredSettings: filteredStoredSettings
 ]
 
 { #category : 'enumerating' }
